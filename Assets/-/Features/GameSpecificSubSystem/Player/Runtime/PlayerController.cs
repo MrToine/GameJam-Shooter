@@ -21,6 +21,15 @@ namespace Player.Runtime
                 _direction = context.ReadValue<Vector2>();
             }
         }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            if (context.performed && _isGrounded)
+            {
+                Debug.Log("Jumping");
+                Jump();
+            }
+        }
     
         #endregion
 
@@ -29,13 +38,14 @@ namespace Player.Runtime
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Awake()
+        private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _velocity = _rb.linearVelocity;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             switch (_state)
             {
@@ -53,6 +63,13 @@ namespace Player.Runtime
                     IdleLoop();
                     break;
             }
+            _rb.linearVelocityX = _velocity.x;
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log(collision.gameObject.name);
+            _isGrounded = true;
         }
 
         #endregion
@@ -62,14 +79,24 @@ namespace Player.Runtime
 
         private void IdleLoop()
         {
-            Debug.Log("Idle Loop");
-            _rb.linearVelocityX = 0;
+            /*Vector2 decelerationVector = (_velocity.normalized * _deceleration) * Time.deltaTime; 
+            _velocity -= decelerationVector; 
+            _rb.linearVelocity = _velocity;*/
+            _velocity.x = 0;
         }
         
         private void WalkingLoop()
         {
-            //_rb.MovePosition(_direction * _speed * Time.deltaTime);
-            _rb.linearVelocityX += _direction.x * _speed * Time.deltaTime;
+            _velocity.x += _direction.x * _acceleration * Time.deltaTime;
+            _velocity = Vector2.ClampMagnitude(_velocity, _speed);
+        }
+
+        private void Jump()
+        {
+            Debug.Log("Spriiiiing");
+            _state = PlayerState.JUMP;
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _isGrounded = false;
         }
     
         #endregion
@@ -85,9 +112,19 @@ namespace Player.Runtime
         #region Privates and Protected
 
         private Rigidbody2D _rb;
+        private Vector2 _velocity;
         private PlayerState _state;
         private Vector2 _direction;
-        private float _speed = 50;
+        [SerializeField] private bool _isGrounded;
+        
+        [Header("Vitesse, Accélération et Décélération")]
+        [SerializeField] private float _speed = 5;
+        [SerializeField] private float _acceleration = 50;
+        [SerializeField] private float _deceleration = 100;
+        
+        [Header("Hauteur, longueur du saut")]
+        [SerializeField] private float _jumpForce = 300;
+        //[SerializeField] private float _jumpSpeed = 300;
 
         private enum PlayerState
         {
