@@ -26,7 +26,6 @@ namespace Player.Runtime
         {
             if (context.performed && _isGrounded)
             {
-                Debug.Log("Jumping");
                 Jump();
             }
         }
@@ -56,6 +55,7 @@ namespace Player.Runtime
                     WalkingLoop();
                     break;
                 case PlayerState.JUMP:
+                    CheckJump();
                     break;
                 case PlayerState.HIT:
                     break;
@@ -70,6 +70,7 @@ namespace Player.Runtime
         {
             Debug.Log(collision.gameObject.name);
             _isGrounded = true;
+            _canJump = true;
         }
 
         #endregion
@@ -79,9 +80,6 @@ namespace Player.Runtime
 
         private void IdleLoop()
         {
-            /*Vector2 decelerationVector = (_velocity.normalized * _deceleration) * Time.deltaTime; 
-            _velocity -= decelerationVector; 
-            _rb.linearVelocity = _velocity;*/
             _velocity.x = 0;
         }
         
@@ -93,10 +91,18 @@ namespace Player.Runtime
 
         private void Jump()
         {
-            Debug.Log("Spriiiiing");
             _state = PlayerState.JUMP;
             _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
             _isGrounded = false;
+            _canJump = false;
+        }
+
+        private void CheckJump()
+        {
+            if (!_isGrounded && _rb.linearVelocityY < 0)
+            {
+                _rb.AddForce(-Vector2.up * _apexForce);
+            }
         }
     
         #endregion
@@ -115,6 +121,8 @@ namespace Player.Runtime
         private Vector2 _velocity;
         private PlayerState _state;
         private Vector2 _direction;
+        private bool _canJump = true;
+        
         [SerializeField] private bool _isGrounded;
         
         [Header("Vitesse, Accélération et Décélération")]
@@ -122,8 +130,9 @@ namespace Player.Runtime
         [SerializeField] private float _acceleration = 50;
         [SerializeField] private float _deceleration = 100;
         
-        [Header("Hauteur, longueur du saut")]
-        [SerializeField] private float _jumpForce = 300;
+        [Header("Hauteur du saut et vitesse de déscente")]
+        [SerializeField] private float _jumpForce = 10;
+        [SerializeField] private float _apexForce = 10;
         //[SerializeField] private float _jumpSpeed = 300;
 
         private enum PlayerState
