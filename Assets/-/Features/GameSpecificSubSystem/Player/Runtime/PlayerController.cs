@@ -21,7 +21,7 @@ namespace Player.Runtime
             {
                 _state = PlayerState.WALK;
                 _direction = context.ReadValue<Vector2>();
-                _spriteRenderer.flipX = _direction.x > 0;
+                _spriteRenderer.flipX = _direction.x < 0;
             }
         }
 
