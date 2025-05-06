@@ -5,10 +5,12 @@ namespace Player.Runtime
 {
     public class PlayerController : MonoBehaviour
     {
-
+    
 
         #region Publics
 
+        public Vector2 m_direction;
+        
         public void OnMove(InputAction.CallbackContext context)
         {
             if (context.canceled)
