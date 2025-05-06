@@ -58,6 +58,7 @@ namespace Enemy.Runtime
                 // ⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀ 
                 // ⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
                 // ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉
+                //   Shreksophone 10h : https://www.youtube.com/watch?v=t4KJOX71448&pp=ygUPc2hya3NvcGhvbmUgMTBo
         }
 
         // Update is called once per frame
@@ -68,6 +69,9 @@ namespace Enemy.Runtime
             {
                 case EnemyState.ONLIFE:
                     CheckState();
+                    break;
+                case EnemyState.INPATH:
+                    Start();
                     break;
                 case EnemyState.CHASING:
                     
@@ -121,9 +125,12 @@ namespace Enemy.Runtime
         private void CheckPosInPath()
         {
             Debug.Log("CheckPosInPath");
-            if (Mathf.Approximately(transform.position.y, _lastPosition.y))
+            float distance = Vector2.Distance(transform.position, _lastPosition);
+            if (distance < 0.1f)
             {
-                _velocity.y = 0;
+                _rb.linearVelocity = Vector2.zero;
+                _direction = Vector2.zero;
+                _state = EnemyState.INPATH;
             }
         }
     
@@ -156,6 +163,7 @@ namespace Enemy.Runtime
         private enum EnemyState
         {
             ONLIFE,
+            INPATH,
             CHASING,
             RETURNING,
             DEAD

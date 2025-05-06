@@ -21,6 +21,7 @@ namespace Player.Runtime
             {
                 _state = PlayerState.WALK;
                 _direction = context.ReadValue<Vector2>();
+                _spriteRenderer.flipX = _direction.x > 0;
             }
         }
 
@@ -42,6 +43,7 @@ namespace Player.Runtime
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _velocity = _rb.linearVelocity;
         }
 
@@ -120,6 +122,7 @@ namespace Player.Runtime
         #region Privates and Protected
 
         private Rigidbody2D _rb;
+        private SpriteRenderer _spriteRenderer;
         private Vector2 _velocity;
         private PlayerState _state;
         private Vector2 _direction;
