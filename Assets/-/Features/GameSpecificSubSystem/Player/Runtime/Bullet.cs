@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 namespace Player.Runtime
@@ -37,6 +38,16 @@ namespace Player.Runtime
                 _timer = _timeLife;
             }
         }
+
+        void OnCollisionEnter2D(Collision2D other)
+        {
+            LayerMask mask = LayerMask.NameToLayer("Enemy");
+            if (other.gameObject.layer == mask)
+            {
+                gameObject.SetActive(false);
+                _timer = _timeLife;
+            }
+        } 
 
         #endregion
         

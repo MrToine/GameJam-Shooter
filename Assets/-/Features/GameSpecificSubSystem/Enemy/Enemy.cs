@@ -5,11 +5,23 @@ namespace Enemy.Runtime
 {
     public class Enemy : MonoBehaviour
     {
-
-
         #region Publics
 
-        //
+        public void GoToPlayer(GameObject player)
+        {
+            _lastPosition = transform.position;
+            _newPosition = player.transform.position;
+            _direction = _newPosition - _lastPosition;
+            _speed /= 2;
+            _state = EnemyState.CHASING;
+        }
+
+        public void EscapeToPlayer()
+        {
+            _speed *= 2;
+            _direction = _lastPosition - _newPosition;
+            _state = EnemyState.RETURNING;
+        }
     
         #endregion
 
@@ -18,32 +30,72 @@ namespace Enemy.Runtime
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+        void Awake()
+        {
+            _transform = transform;
+            _rb = GetComponent<Rigidbody2D>();
+            _velocity = _rb.linearVelocity;
+        }
+        
         void Start()
         {
             _state = EnemyState.ONLIFE;
+            _direction.x = 1;
+            
+                // ⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠑⢄⣠⠾⠁⣀⣄⡈⠙⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⢀⡀⠁⠀⠀⠈⠙⠛⠂⠈⣿⣿⣿⣿⣿⠿⡿⢿⣆⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⢀⡾⣁⣀⠀⠴⠂⠙⣗⡀⠀⢻⣿⣿⠭⢤⣴⣦⣤⣹⠀⠀⠀⢀⢴⣶⣆ 
+                // ⠀⠀⢀⣾⣿⣿⣿⣷⣮⣽⣾⣿⣥⣴⣿⣿⡿⢂⠔⢚⡿⢿⣿⣦⣴⣾⠁⠸⣼⡿ 
+                // ⠀⢀⡞⠁⠙⠻⠿⠟⠉⠀⠛⢹⣿⣿⣿⣿⣿⣌⢤⣼⣿⣾⣿⡟⠉⠀⠀⠀⠀⠀ 
+                // ⠀⣾⣷⣶⠇⠀⠀⣤⣄⣀⡀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠉⠈⠉⠀⠀⢦⡈⢻⣿⣿⣿⣶⣶⣶⣶⣤⣽⡹⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠀⠀⠀⠉⠲⣽⡻⢿⣿⣿⣿⣿⣿⣿⣷⣜⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣷⣶⣮⣭⣽⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠀⠀⣀⣀⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
+                // ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉
         }
 
         // Update is called once per frame
         void Update()
         {
+            Debug.Log(_state);
             switch (_state)
             {
                 case EnemyState.ONLIFE:
                     CheckState();
+                    break;
+                case EnemyState.CHASING:
+                    
+                    break;
+                case EnemyState.RETURNING:
+                    CheckPosInPath();
                     break;
                 case EnemyState.DEAD:
                     Kill();
                     break;
             }
         }
+        
+        void FixedUpdate()
+        {
+            _rb.linearVelocity = _direction * _speed;
+        }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            LayerMask mask = LayerMask.GetMask("Bullet");
-            if (other.gameObject.layer == mask)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Bullet"))
             {
-                Debug.Log("touched by " + other.gameObject.name);
                 _life -= 1;
+            }
+            
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Path"))
+            {
+                _direction.x = -_direction.x;
             }
         }
 
@@ -65,6 +117,15 @@ namespace Enemy.Runtime
                 _state = EnemyState.DEAD;
             }
         }
+
+        private void CheckPosInPath()
+        {
+            Debug.Log("CheckPosInPath");
+            if (Mathf.Approximately(transform.position.y, _lastPosition.y))
+            {
+                _velocity.y = 0;
+            }
+        }
     
         #endregion
 
@@ -77,14 +138,26 @@ namespace Enemy.Runtime
     
     
         #region Privates and Protected
-
+        
+        private Vector2 _direction;
+        private Transform _transform;
+        private Rigidbody2D _rb;
+        private Vector2 _velocity;
         private EnemyState _state;
+        private Vector2 _lastPosition;
+        private Vector2 _newPosition;
+        
         [Header("Stats de l'enemie")] 
         [SerializeField] private int _life = 1;
+        
+        [Header("Vitesse de l'enemie")]
+        [SerializeField] private float _speed;
 
         private enum EnemyState
         {
             ONLIFE,
+            CHASING,
+            RETURNING,
             DEAD
         }
 
