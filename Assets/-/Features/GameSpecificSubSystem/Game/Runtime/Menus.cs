@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.Runtime
 {
@@ -8,7 +9,36 @@ namespace Game.Runtime
 
         #region Publics
 
-        //
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
+        public void RestartLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        public void StartGame()
+        {
+            //
+        }
+
+        public void ColorEnterStart()
+        {
+            _startButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+        }
+
+        public void ColorEnterQuit()
+        {
+            _quitButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+        }
+
+        public void ColorDefault()
+        {
+            _startButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            _quitButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+        }
     
         #endregion
 
@@ -48,7 +78,8 @@ namespace Game.Runtime
     
         #region Privates and Protected
 
-        //
+        [SerializeField] private SpriteRenderer _startButtonSprite;
+        [SerializeField] private SpriteRenderer _quitButtonSprite;
 
         #endregion
     }
