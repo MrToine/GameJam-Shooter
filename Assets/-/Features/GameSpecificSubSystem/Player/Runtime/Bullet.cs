@@ -41,8 +41,7 @@ namespace Player.Runtime
 
         void OnCollisionEnter2D(Collision2D other)
         {
-            LayerMask mask = LayerMask.NameToLayer("Enemy");
-            if (other.gameObject.layer == mask)
+            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy") || other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 gameObject.SetActive(false);
                 _timer = _timeLife;

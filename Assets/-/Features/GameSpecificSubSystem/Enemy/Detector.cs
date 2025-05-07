@@ -23,15 +23,15 @@ namespace Enemy.Runtime
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 _goToPlayer.Invoke(_player);
+                _shootPlayer.Invoke();
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            Debug.Log("OnTriggerExit2D");
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-               _goToEnemy.Invoke();
+               _goToEnemyPath.Invoke();
             }
         }
 
@@ -57,7 +57,8 @@ namespace Enemy.Runtime
         
         [SerializeField] private GameObject _player;
         [SerializeField] private UnityEvent<GameObject> _goToPlayer;
-        [SerializeField] private UnityEvent _goToEnemy;
+        [SerializeField] private UnityEvent _goToEnemyPath;
+        [SerializeField] private UnityEvent _shootPlayer;
 
         #endregion
     }

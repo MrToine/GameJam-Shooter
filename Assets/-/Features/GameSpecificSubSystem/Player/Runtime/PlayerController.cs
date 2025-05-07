@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,6 +22,15 @@ namespace Player.Runtime
             {
                 _state = PlayerState.WALK;
                 _direction = context.ReadValue<Vector2>();
+                _spriteRenderer.flipX = _direction.x < 0;
+                if (_spriteRenderer.flipX)
+                {
+                    _muzzle.transform.localPosition = new Vector3(-_muzzlPosX, 0, 0);
+                }
+                else
+                {
+                    _muzzle.transform.localPosition = new Vector3(_muzzlPosX, 0, 0);
+                }
             }
         }
 
@@ -42,7 +52,9 @@ namespace Player.Runtime
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _velocity = _rb.linearVelocity;
+            _muzzlPosX = _muzzle.transform.localPosition.x;
         }
 
         // Update is called once per frame
@@ -70,7 +82,6 @@ namespace Player.Runtime
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log(collision.gameObject.name);
             _isGrounded = true;
             _canJump = true;
         }
@@ -120,10 +131,15 @@ namespace Player.Runtime
         #region Privates and Protected
 
         private Rigidbody2D _rb;
+        private SpriteRenderer _spriteRenderer;
         private Vector2 _velocity;
         private PlayerState _state;
         private Vector2 _direction;
         private bool _canJump = true;
+        private float _muzzlPosX;
+
+        [Header("Références")] 
+        [SerializeField] private GameObject _muzzle;
         
         [SerializeField] private bool _isGrounded;
         
