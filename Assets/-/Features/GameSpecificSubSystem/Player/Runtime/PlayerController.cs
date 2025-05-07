@@ -104,8 +104,10 @@ namespace Player.Runtime
 
         private void Jump()
         {
+            //_rb.gravityScale = 2.5f; ==> POUR DIMINUER LA LONGUEUR DU SAUT VIA LA GRAVITE
             _state = PlayerState.JUMP;
-            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            float jumpVelocity = Mathf.Sqrt(2 * 9.81f * _jumpHeight);
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpVelocity);
             _isGrounded = false;
             _canJump = false;
         }
@@ -151,7 +153,7 @@ namespace Player.Runtime
         [Header("Hauteur du saut et vitesse de déscente")]
         [SerializeField] private float _jumpForce = 10;
         [SerializeField] private float _apexForce = 10;
-        //[SerializeField] private float _jumpSpeed = 300;
+        [SerializeField] private float _jumpHeight = 5;
 
         private enum PlayerState
         {
