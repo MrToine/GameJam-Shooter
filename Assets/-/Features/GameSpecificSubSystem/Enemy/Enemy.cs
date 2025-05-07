@@ -126,7 +126,7 @@ namespace Enemy.Runtime
         {
             Debug.Log("CheckPosInPath");
             float distance = Vector2.Distance(transform.position, _lastPosition);
-            if (distance < 0.1f)
+            if (distance < 0.3f)
             {
                 _rb.linearVelocity = Vector2.zero;
                 _direction = Vector2.zero;

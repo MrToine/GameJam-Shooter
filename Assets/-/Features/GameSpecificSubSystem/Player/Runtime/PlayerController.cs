@@ -22,6 +22,14 @@ namespace Player.Runtime
                 _state = PlayerState.WALK;
                 _direction = context.ReadValue<Vector2>();
                 _spriteRenderer.flipX = _direction.x < 0;
+                if (_spriteRenderer.flipX)
+                {
+                    _muzzle.transform.localPosition = new Vector3(-0.49f, 0, 0);
+                }
+                else
+                {
+                    _muzzle.transform.localPosition = new Vector3(0.49f, 0, 0);
+                }
             }
         }
 
@@ -72,7 +80,6 @@ namespace Player.Runtime
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            Debug.Log(collision.gameObject.name);
             _isGrounded = true;
             _canJump = true;
         }
@@ -127,6 +134,9 @@ namespace Player.Runtime
         private PlayerState _state;
         private Vector2 _direction;
         private bool _canJump = true;
+
+        [Header("Références")] 
+        [SerializeField] private GameObject _muzzle;
         
         [SerializeField] private bool _isGrounded;
         
