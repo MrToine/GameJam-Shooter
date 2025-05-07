@@ -42,15 +42,16 @@ namespace Enemy.Runtime
 
         void Awake()
         {
+            _sprite = GetComponent<SpriteRenderer>();
             _transform = transform;
             _rb = GetComponent<Rigidbody2D>();
-            _velocity = _rb.linearVelocity;
+            _velocity = _rb.linearVelocity; 
         }
         
         void Start()
         {
             _state = EnemyState.ONLIFE;
-            _direction.x = 1;
+            _direction.x = -1;
             
                 // ⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
                 // ⠸⡇⠀⠿⡀⠀⠀⠀⣀⡴⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
@@ -109,6 +110,7 @@ namespace Enemy.Runtime
             else if (other.gameObject.layer == LayerMask.NameToLayer("Path"))
             {
                 _direction.x = -_direction.x;
+                _sprite.flipX = -_direction.x < 0;
             }
         }
 
@@ -162,6 +164,7 @@ namespace Enemy.Runtime
         private EnemyState _state;
         private Vector2 _lastPosition;
         private Vector2 _newPosition;
+        private SpriteRenderer _sprite;
         
         [Header("Stats de l'enemie")] 
         [SerializeField] private int _life = 1;
