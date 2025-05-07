@@ -25,11 +25,11 @@ namespace Player.Runtime
                 _spriteRenderer.flipX = _direction.x < 0;
                 if (_spriteRenderer.flipX)
                 {
-                    _muzzle.transform.localPosition = new Vector3(-_muzzlPos.x, _muzzlPos.y, 0);
+                    _muzzle.transform.localPosition = new Vector3(_muzzlPos.x, _muzzlPos.y, 0);
                 }
                 else
                 {
-                    _muzzle.transform.localPosition = new Vector3(_muzzlPos.x, _muzzlPos.y, 0);
+                    _muzzle.transform.localPosition = new Vector3(-_muzzlPos.x, _muzzlPos.y, 0);
                 }
             }
         }
