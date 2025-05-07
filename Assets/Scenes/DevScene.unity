@@ -374,6 +374,10 @@ PrefabInstance:
       propertyPath: _goToEnemyPath.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3036208561888551908, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.98
+      objectReference: {fileID: 0}
     - target: {fileID: 3350311049464561435, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -382,7 +386,15 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 97a29a44e7bd66d4590d24ae4a72a02e, type: 3}
+    - target: {fileID: 3368201039108320049, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.6200001
+      objectReference: {fileID: 0}
     - target: {fileID: 3587084980054075251, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: _bulletSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4078737110350794689, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
       propertyPath: _bulletSpeed
       value: 20
       objectReference: {fileID: 0}
@@ -427,6 +439,14 @@ PrefabInstance:
       value: 0.4910002
       objectReference: {fileID: 0}
     - target: {fileID: 8377979601617900309, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: m_Mass
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377979601617900309, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: m_Constraints
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8377979601617900309, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
       value: 8
       objectReference: {fileID: 0}
@@ -453,6 +473,14 @@ PrefabInstance:
     - target: {fileID: 8458548143630419036, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8890965614899562084, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915765847730072650, guid: 653187d152a0dd649ba5a4802573b6c7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.98
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
