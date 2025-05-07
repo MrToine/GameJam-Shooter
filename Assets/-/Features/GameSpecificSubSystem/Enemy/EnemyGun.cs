@@ -9,6 +9,7 @@ namespace Enemy.Runtime
 
         public void OnAttack()
         {
+            Debug.Log("TIR");
             _canShoot = true;
         }
 
