@@ -15,8 +15,8 @@ TagManager:
   - Bullet
   - Enemy
   - Path
-  - 
-  - 
+  - colider enemy
+  - floor
   - 
   - 
   - 
