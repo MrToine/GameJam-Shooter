@@ -23,6 +23,7 @@ namespace Enemy.Runtime
             if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 _goToPlayer.Invoke(_player);
+                _shootPlayer.Invoke();
             }
         }
 
@@ -57,6 +58,7 @@ namespace Enemy.Runtime
         [SerializeField] private GameObject _player;
         [SerializeField] private UnityEvent<GameObject> _goToPlayer;
         [SerializeField] private UnityEvent _goToEnemyPath;
+        [SerializeField] private UnityEvent _shootPlayer;
 
         #endregion
     }

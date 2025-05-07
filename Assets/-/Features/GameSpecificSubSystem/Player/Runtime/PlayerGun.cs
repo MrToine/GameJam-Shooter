@@ -1,5 +1,6 @@
 using Game.Runtime;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace Player.Runtime
@@ -39,12 +40,6 @@ namespace Player.Runtime
         void Awake()
         {
             _playerSprite = GetComponent<SpriteRenderer>();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
 
         #endregion

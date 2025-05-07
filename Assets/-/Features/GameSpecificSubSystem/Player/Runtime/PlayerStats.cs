@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player.Runtime
 {
     public class PlayerStats : MonoBehaviour
     {
-
-
         #region Publics
 
         //
@@ -27,27 +26,27 @@ namespace Player.Runtime
 
         private void Update()
         {
+            if (_lifePoints <= 0)
+            {
+                Destroy(gameObject);
+            }
             if (_isInvincible)
             {
                 var timer = 1.0f;
                 timer -= Time.deltaTime;
                 if (timer <= 0)
                 {
-                    _spriteRenderer.sprite = _sprites[1];
                     _isInvincible = false;
                     timer = 1.0f;
                 }
-                
             }
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             Debug.Log("Entered on collision with :" + other.gameObject.name);
-            if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            if (other.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
             {
-                Debug.Log(_sprites[0]);
-                _spriteRenderer.sprite = _sprites[0];
                 _lifePoints--;
                 _isInvincible = true;
             }
@@ -76,9 +75,7 @@ namespace Player.Runtime
         private SpriteRenderer _spriteRenderer;
         
         [SerializeField] private int _lifePoints;
-        
-        [Header("Liste des sprites d'états")]
-        [SerializeField] private List<Sprite> _sprites;
+        [SerializeField] private UnityEvent _changeState;
 
         #endregion
     }
