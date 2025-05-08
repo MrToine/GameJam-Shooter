@@ -32,7 +32,7 @@ namespace Enemy.Runtime
             }
             else
             {
-                Debug.Log("PAS DE PIOUUU");
+                //Debug.Log("PAS DE PIOUUU");
             }
         }
 

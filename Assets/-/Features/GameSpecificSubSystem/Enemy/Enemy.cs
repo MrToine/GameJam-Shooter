@@ -74,7 +74,7 @@ namespace Enemy.Runtime
         // Update is called once per frame
         void Update()
         {
-            Debug.Log(_state);
+            //Debug.Log(_state);
             switch (_state)
             {
                 case EnemyState.ONLIFE:

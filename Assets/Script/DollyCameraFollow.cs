@@ -12,25 +12,24 @@ public class DollyCameraFollow : MonoBehaviour
     void Update()
     {
         float closestDistance = float.MaxValue;
-        float closestPathPos = 0f;
+        float closestPathPosition = 0f;
 
-        for (int i = 0; i <= sampleSteps; i++)
+        for(int i = 0; i < sampleSteps; i++)
         {
-            float t = i / (float)sampleSteps * path.PathLength;
-            Vector3 pathPoint = path.EvaluatePositionAtUnit(t, CinemachinePathBase.PositionUnits.Distance);
-            float distance = Vector2.Distance(new Vector2(player.position.x, player.position.y), new Vector2(pathPoint.x, pathPoint.y));
+            float t = (float) i / sampleSteps * path.PathLength;
 
-            if (distance < closestDistance)
+            Vector3 pathPoint = path.EvaluatePositionAtUnit(t, CinemachinePathBase.PositionUnits.Distance);
+
+            var distance = Vector3.Distance(player.position, pathPoint);
+
+            if ( distance < closestDistance )
             {
                 closestDistance = distance;
-                closestPathPos = t;
+                closestPathPosition = t;
             }
-        }
 
-        var dolly = virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
-        if (dolly != null)
-        {
-            dolly.m_PathPosition = closestPathPos;
+            var dolly = virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
+            dolly.m_PathPosition = closestPathPosition;
         }
     }
 }
