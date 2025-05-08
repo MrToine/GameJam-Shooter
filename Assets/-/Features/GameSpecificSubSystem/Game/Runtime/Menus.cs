@@ -24,30 +24,31 @@ namespace Game.Runtime
 
         public void StartGame()
         {
-            //
+            SceneManager.LoadScene("New Scene");
         }
         
 
         public void ScaleButton(GameObject button)
         {
-            Debug.Log("ScaleButton");
+            _menuSoundEffet.Play();
             button.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         }
         
         public void UnscaleButton(GameObject button)
         {
-            Debug.Log("UnscaleButton");
             button.transform.localScale = new Vector3(1, 1, 1);
         }
 
         public void ActiveMenu()
         {
+            _music.volume -= 0.15f;
             Time.timeScale = 0;
             _pauseMenu.SetActive(true);
         }
 
         public void DeactiveMenu()
         {
+            _music.volume += 0.15f;
             Time.timeScale = 1;
             _pauseMenu.SetActive(false);
         }
@@ -126,6 +127,9 @@ namespace Game.Runtime
         [SerializeField] private GameObject _pauseMenu;
         [SerializeField] private GameObject _deathScreen;
         [SerializeField] private TMP_Text _textMeshChrono;
+        [Header("Son")]
+        [SerializeField] private AudioSource _menuSoundEffet;
+        [SerializeField] private AudioSource _music;
 
         #endregion
     }
