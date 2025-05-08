@@ -22,12 +22,14 @@ namespace Player.Runtime
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _currentScaleXLifeBar = _lifeUI.transform.localScale.x;
         }
 
         private void Update()
         {
             if (_lifePoints <= 0)
             {
+                _onDeath.Invoke();
                 Destroy(gameObject);
             }
             if (_isInvincible)
@@ -40,14 +42,16 @@ namespace Player.Runtime
                     timer = 1.0f;
                 }
             }
+
+            _lifeUI.transform.localScale = new Vector3(_currentScaleXLifeBar, _lifeUI.transform.localScale.y, _currentScaleXLifeBar);
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            Debug.Log("Entered on collision with :" + other.gameObject.name);
             if (other.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
             {
-                _lifePoints--;
+                _lifePoints--; ;
+                _currentScaleXLifeBar -= 0.2f;
                 _isInvincible = true;
             }
         }
@@ -73,9 +77,13 @@ namespace Player.Runtime
 
         private bool _isInvincible = false;
         private SpriteRenderer _spriteRenderer;
-        
+        private SpriteRenderer _lifeSprite;
+        private float _currentScaleXLifeBar;
+
+        [SerializeField] private UnityEvent _onDeath;
         [SerializeField] private int _lifePoints;
         [SerializeField] private UnityEvent _changeState;
+        [SerializeField] private GameObject _lifeUI;
 
         #endregion
     }

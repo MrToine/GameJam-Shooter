@@ -13,6 +13,7 @@ namespace Player.Runtime
 
         public void OnAttack(InputAction.CallbackContext context)
         {
+            _impactSound.Play();
             if (context.performed)
             {
                 var bullet = _poolSystem.GetFirstAvailableProjectile();
@@ -79,6 +80,9 @@ namespace Player.Runtime
         [SerializeField] private float _bulletSpeed = 5;
         
         [SerializeField] private ParticleSystem _particleSystem;
+        
+        [Header("Son")]
+        [SerializeField] private AudioSource _impactSound;
 
         #endregion
     }

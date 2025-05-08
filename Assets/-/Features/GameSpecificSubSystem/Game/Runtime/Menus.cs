@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,33 +12,56 @@ namespace Game.Runtime
 
         public void QuitGame()
         {
+            Debug.Log("Quit");
             Application.Quit();
         }
 
         public void RestartLevel()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Time.timeScale = 1;
         }
 
         public void StartGame()
         {
-            //
+            SceneManager.LoadScene("New Scene");
+        }
+        
+
+        public void ScaleButton(GameObject button)
+        {
+            _menuSoundEffet.Play();
+            button.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        }
+        
+        public void UnscaleButton(GameObject button)
+        {
+            button.transform.localScale = new Vector3(1, 1, 1);
         }
 
-        public void ColorEnterStart()
+        public void ActiveMenu()
         {
-            _startButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            _music.volume -= 0.15f;
+            Time.timeScale = 0;
+            _pauseMenu.SetActive(true);
         }
 
-        public void ColorEnterQuit()
+        public void DeactiveMenu()
         {
-            _quitButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            _music.volume += 0.15f;
+            Time.timeScale = 1;
+            _pauseMenu.SetActive(false);
         }
 
-        public void ColorDefault()
+        public void Death()
         {
-            _startButtonSprite.color = new Color(1f, 1f, 1f, 0f);
-            _quitButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            Time.timeScale = 0;
+            if (_deathScreen != null)
+            {
+                TMP_Text finalChrono = _deathScreen.GetComponentInChildren<TMP_Text>();
+                finalChrono.text = _textMeshChrono.text;
+                _deathScreen.SetActive(true);
+            }
         }
     
         #endregion
@@ -49,13 +73,33 @@ namespace Game.Runtime
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-        
+            /*GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+            foreach (GameObject obj in allObjects)
+            {
+                Debug.Log(obj.name);
+                if (obj != gameObject || obj.transform.IsChildOf(gameObject.transform) || obj.name != "Main Camera" || obj.name != "canvas")
+                {
+                    obj.SetActive(false);
+                }
+            }*/
         }
 
         // Update is called once per frame
         void Update()
         {
-        
+            if (Input.GetButtonDown("Cancel"))
+            {
+                _isPaused = !_isPaused;
+                if (_isPaused)
+                {
+                    ActiveMenu();
+                }
+                else
+                {
+                    DeactiveMenu();
+                }
+            }
         }
 
         #endregion
@@ -77,9 +121,15 @@ namespace Game.Runtime
     
     
         #region Privates and Protected
-
-        [SerializeField] private SpriteRenderer _startButtonSprite;
-        [SerializeField] private SpriteRenderer _quitButtonSprite;
+        
+        private bool _isPaused = false;
+        
+        [SerializeField] private GameObject _pauseMenu;
+        [SerializeField] private GameObject _deathScreen;
+        [SerializeField] private TMP_Text _textMeshChrono;
+        [Header("Son")]
+        [SerializeField] private AudioSource _menuSoundEffet;
+        [SerializeField] private AudioSource _music;
 
         #endregion
     }
