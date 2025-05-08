@@ -68,7 +68,7 @@ namespace Player.Runtime
             switch (_state)
             {
                 case PlayerState.IDLE:
-                    _animator.SetBool("walk", false);
+                    _animator.SetBool("walk", false); 
                     IdleLoop();
                     break;
                 case PlayerState.WALK:
