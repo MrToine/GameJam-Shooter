@@ -30,7 +30,6 @@ namespace Player.Runtime
             if (_lifePoints <= 0)
             {
                 _onDeath.Invoke();
-                Destroy(gameObject);
             }
             if (_isInvincible)
             {
@@ -51,7 +50,7 @@ namespace Player.Runtime
             if (other.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
             {
                 _lifePoints--; ;
-                _currentScaleXLifeBar -= 0.2f;
+                _currentScaleXLifeBar -= 0.1f;
                 _isInvincible = true;
             }
         }

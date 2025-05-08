@@ -41,6 +41,9 @@ namespace Enemy.Runtime
         
         void Start()
         {
+            _pathsGroup.SetActive(true);
+            _floorCollider.SetActive(false);
+            _inPath = true;
             _state = EnemyState.ONLIFE;
             _direction.x = -1;
         }
@@ -57,7 +60,9 @@ namespace Enemy.Runtime
                     Start();
                     break;
                 case EnemyState.CHASING:
-                    
+                    _pathsGroup.SetActive(false);
+                    _floorCollider.SetActive(true);
+                    _inPath = false;
                     break;
                 case EnemyState.RETURNING:
                     CheckPosInPath();
@@ -80,22 +85,23 @@ namespace Enemy.Runtime
                 _life -= 1;
             }
             
-            else if (other.gameObject.layer == LayerMask.NameToLayer("Path"))
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Path") && _inPath)
             {
-                _direction.x = -_direction.x;
+                Debug.Log("Collision Enter with path");
+                _direction = new Vector2(-_direction.x, _direction.y);
                 _sprite.flipX = -_direction.x < 0;
             }
         }
 
         #endregion
-    
-
+        
 
         #region Main Methods
 
         private void Kill()
         {
             gameObject.SetActive(false);
+            _pathsGroup.SetActive(false);
         }
 
         private void CheckState()
@@ -137,6 +143,10 @@ namespace Enemy.Runtime
         private Vector2 _lastPosition;
         private Vector2 _newPosition;
         private SpriteRenderer _sprite;
+        private bool _inPath = true;
+        
+        [SerializeField] private GameObject _pathsGroup;
+        [SerializeField] private GameObject _floorCollider;
         
         [Header("Stats de l'enemie")] 
         [SerializeField] private int _life = 1;

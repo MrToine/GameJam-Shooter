@@ -58,6 +58,8 @@ namespace Game.Runtime
             Time.timeScale = 0;
             if (_deathScreen != null)
             {
+                _music.mute = true;
+                _menuDefeatSound.Play();
                 TMP_Text finalChrono = _deathScreen.GetComponentInChildren<TMP_Text>();
                 finalChrono.text = _textMeshChrono.text;
                 _deathScreen.SetActive(true);
@@ -130,6 +132,8 @@ namespace Game.Runtime
         [Header("Son")]
         [SerializeField] private AudioSource _menuSoundEffet;
         [SerializeField] private AudioSource _music;
+        [SerializeField] private AudioSource _menuDefeatSound;
+        [SerializeField] private AudioSource _musicVictorySound;
 
         #endregion
     }

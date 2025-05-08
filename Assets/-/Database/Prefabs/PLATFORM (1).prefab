@@ -240,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8667467000878897647}
   - component: {fileID: 5505254175391543183}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: COLLIDER PLATFORM
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -62,27 +62,47 @@ namespace Player.Runtime
             _animator = GetComponent<Animator>();
         }
 
-        // Update is called once per frame
         private void Update()
+        {
+            bool wasGrounded = _isGrounded;
+            _isGrounded = IsGrounded();
+            
+            // Gérer les transitions d'animations basées sur l'état au sol
+            if (!wasGrounded && _isGrounded)
+            {
+                // Vient de toucher le sol
+                _animator.SetBool("jump", false);
+                
+                // Revenir à l'état IDLE ou WALK selon si le joueur se déplace
+                if (_direction.x != 0)
+                {
+                    _state = PlayerState.WALK;
+                }
+                else
+                {
+                    _state = PlayerState.IDLE;
+                }
+            }
+            
+            // Mettre à jour les animations en fonction de l'état du joueur
+            UpdateAnimations();
+        }
+
+        // Update is called once per frame
+        private void FixedUpdate()
         {
             switch (_state)
             {
                 case PlayerState.IDLE:
-                    _animator.SetBool("walk", false); 
                     IdleLoop();
                     break;
                 case PlayerState.WALK:
-                    _animator.SetBool("walk", true);
-                    _animator.SetBool("jump", false);
                     WalkingLoop();
                     break;
                 case PlayerState.JUMP:
-                    _animator.SetBool("walk", false);
-                    _animator.SetBool("jump", true);
                     CheckJump();
                     break;
                 case PlayerState.HIT:
-                    _animator.SetBool("TakeDamage", true);
                     break;
                 default:
                     IdleLoop();
@@ -93,7 +113,6 @@ namespace Player.Runtime
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            _isGrounded = true;
             _canJump = true;
         }
 
@@ -101,6 +120,29 @@ namespace Player.Runtime
     
         
         #region Main Methods
+
+        private void UpdateAnimations()
+        {
+            // Mise à jour des animations selon l'état actuel
+            switch (_state)
+            {
+                case PlayerState.IDLE:
+                    _animator.SetBool("walk", false);
+                    _animator.SetBool("jump", false);
+                    break;
+                case PlayerState.WALK:
+                    _animator.SetBool("walk", true);
+                    _animator.SetBool("jump", false);
+                    break;
+                case PlayerState.JUMP:
+                    _animator.SetBool("walk", false);
+                    _animator.SetBool("jump", true);
+                    break;
+                case PlayerState.HIT:
+                    _animator.SetBool("TakeDamage", true);
+                    break;
+            }
+        }
 
         private void IdleLoop()
         {
@@ -119,7 +161,6 @@ namespace Player.Runtime
             _state = PlayerState.JUMP;
             float jumpVelocity = Mathf.Sqrt(2 * 9.81f * _jumpHeight);
             _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, jumpVelocity);
-            _isGrounded = false;
             _canJump = false;
         }
 
@@ -129,6 +170,21 @@ namespace Player.Runtime
             {
                 _rb.AddForce(-Vector2.up * _apexForce);
             }
+        }
+        
+        private bool IsGrounded()
+        {
+            float rayLength = 1f;
+            Vector2 origin = _jumpDetectorPos.position;
+            Vector2 direction = Vector2.down;
+
+            RaycastHit2D hit = Physics2D.Raycast(origin, direction, rayLength, LayerMask.GetMask("floor"));
+
+            if (hit.collider != null)
+            {
+                return true;
+            }
+            return false;
         }
     
         #endregion
@@ -155,6 +211,7 @@ namespace Player.Runtime
 
         [Header("Références")] 
         [SerializeField] private GameObject _muzzle;
+        [SerializeField] private Transform _jumpDetectorPos;
         
         [SerializeField] private bool _isGrounded;
         

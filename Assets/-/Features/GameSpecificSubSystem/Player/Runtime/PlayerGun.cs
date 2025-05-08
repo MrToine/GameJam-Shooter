@@ -13,9 +13,18 @@ namespace Player.Runtime
 
         public void OnAttack(InputAction.CallbackContext context)
         {
-            _impactSound.Play();
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("idle"))
+            {
+                _animator.SetTrigger("fire");
+            }
+            else if (stateInfo.IsName("walk"))
+            {
+                _animator.SetTrigger("walk+fire");
+            }
             if (context.performed)
             {
+                _impactSound.Play();
                 var bullet = _poolSystem.GetFirstAvailableProjectile();
                 bullet.transform.position = _muzzle.transform.position;
                 bullet.SetActive(true);
@@ -46,6 +55,7 @@ namespace Player.Runtime
         void Awake()
         {
             _playerSprite = GetComponent<SpriteRenderer>();
+            _animator =  GetComponent<Animator>();
         }
 
         #endregion
@@ -69,6 +79,7 @@ namespace Player.Runtime
         #region Privates and Protected
 
         private SpriteRenderer _playerSprite;
+        private Animator _animator;
         
         [Header("Game Object <Muzzle>")]
         [SerializeField] private GameObject _muzzle;
