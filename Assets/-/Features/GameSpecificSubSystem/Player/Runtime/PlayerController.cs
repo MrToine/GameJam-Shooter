@@ -10,15 +10,46 @@ namespace Player.Runtime
 
         #region Publics
 
-        public float GetPlayerDirection()
+        public void ResetState()
         {
-            return _direction.x;
+            _state = PlayerState.IDLE;
+            _velocity = Vector2.zero;
+            _direction = Vector2.zero;
+            _canJump = true;
+            _isGrounded = true;
+            if (_animator == null)
+                _animator = GetComponent<Animator>();
+            _animator.SetBool("walk", false);
+            _animator.SetBool("jump", false);
+            _animator.SetBool("TakeDamage", false);
+            enabled = true;
+            gameObject.SetActive(true);
+
+            if (_rb == null)
+                _rb = GetComponent<Rigidbody2D>();
+            if (_spriteRenderer == null)
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+            if (_collider == null)
+                _collider = GetComponent<PolygonCollider2D>();
+            if (_rb != null)
+            {
+                _rb.simulated = true;
+                _rb.linearVelocity = Vector2.zero;
+                _rb.angularVelocity = 0f;
+            }
+            if (_spriteRenderer != null)
+                _spriteRenderer.enabled = true;
+            if (_collider != null)
+                _collider.enabled = true;
+            if (_muzzle != null)
+                _muzzle.SetActive(true);
         }
         
         public void OnMove(InputAction.CallbackContext context)
         {
             if (context.canceled)
             {
+                _direction = Vector2.zero;
                 _state = PlayerState.IDLE;
             }
             else
@@ -100,6 +131,7 @@ namespace Player.Runtime
                     WalkingLoop();
                     break;
                 case PlayerState.JUMP:
+                    _velocity.x = _direction.x * _speed;
                     CheckJump();
                     break;
                 case PlayerState.HIT:

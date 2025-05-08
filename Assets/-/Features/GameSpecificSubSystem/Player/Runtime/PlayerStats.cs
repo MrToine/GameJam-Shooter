@@ -25,6 +25,11 @@ namespace Player.Runtime
             _currentScaleXLifeBar = _lifeUI.transform.localScale.x;
         }
 
+        private void Start()
+        {
+            ResetState();
+        }
+
         private void Update()
         {
             if (_lifePoints <= 0)
@@ -68,6 +73,10 @@ namespace Player.Runtime
         #region Utils
     
         /* Fonctions privées utiles */
+        public void ResetState()
+        {
+            gameObject.SetActive(true);
+        }
     
         #endregion
     

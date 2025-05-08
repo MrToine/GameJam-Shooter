@@ -14,7 +14,7 @@ namespace Game.Runtime
         // Update is called once per frame
         void FixedUpdate()
         {
-            if (_playerTransform.position.y < -5)
+            if (_playerTransform.position.y < -1.5)
             {
                 _onDeath.Invoke();
             }

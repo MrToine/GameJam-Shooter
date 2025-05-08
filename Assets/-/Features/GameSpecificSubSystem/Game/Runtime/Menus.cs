@@ -18,8 +18,8 @@ namespace Game.Runtime
 
         public void RestartLevel()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             Time.timeScale = 1;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         public void StartGame()
