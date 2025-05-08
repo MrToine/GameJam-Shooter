@@ -22,13 +22,14 @@ namespace Player.Runtime
             {
                 _state = PlayerState.WALK;
                 _direction = context.ReadValue<Vector2>();
-                _spriteRenderer.flipX = _direction.x < 0;
-                if (_spriteRenderer.flipX)
+                if (_direction.x > 0)
                 {
+                    transform.localScale = new Vector3(1, 1, 1);
                     _muzzle.transform.localPosition = new Vector3(_muzzlPos.x, _muzzlPos.y, 0);
                 }
                 else
                 {
+                    transform.localScale = new Vector3(-1, 1, 1);
                     _muzzle.transform.localPosition = new Vector3(-_muzzlPos.x, _muzzlPos.y, 0);
                 }
             }
@@ -146,6 +147,7 @@ namespace Player.Runtime
         private bool _canJump = true;
         private Vector2 _muzzlPos;
         private Animator _animator;
+        private PolygonCollider2D _collider;
 
         [Header("Références")] 
         [SerializeField] private GameObject _muzzle;
