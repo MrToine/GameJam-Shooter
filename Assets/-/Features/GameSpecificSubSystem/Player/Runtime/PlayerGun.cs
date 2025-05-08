@@ -19,14 +19,21 @@ namespace Player.Runtime
                 bullet.transform.position = _muzzle.transform.position;
                 bullet.SetActive(true);
                 Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
+                Transform particleTransform = _particleSystem.transform.GetComponent<Transform>();
                 if (_playerSprite.flipX)
-                {
+                {   
+                    particleTransform.localScale = new Vector3(-1, -1, -1);
+                    particleTransform.localPosition = new Vector3(-0.230f, 0, 0);
                     bulletRb.AddForce(Vector2.left * _bulletSpeed, ForceMode2D.Impulse);
                 }
                 else
                 {
+                    particleTransform.localScale = new Vector3(1, 1, 1);                    
+                    particleTransform.localPosition = new Vector3(0.230f, 0, 0);
                     bulletRb.AddForce(Vector2.right * _bulletSpeed, ForceMode2D.Impulse);
                 }
+
+                _particleSystem.Play();
             }
         }
     
@@ -70,6 +77,8 @@ namespace Player.Runtime
 
         [Header("Vitesse de tire")]
         [SerializeField] private float _bulletSpeed = 5;
+        
+        [SerializeField] private ParticleSystem _particleSystem;
 
         #endregion
     }

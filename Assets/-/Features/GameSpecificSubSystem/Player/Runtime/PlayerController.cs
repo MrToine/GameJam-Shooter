@@ -25,11 +25,11 @@ namespace Player.Runtime
                 _spriteRenderer.flipX = _direction.x < 0;
                 if (_spriteRenderer.flipX)
                 {
-                    _muzzle.transform.localPosition = new Vector3(-_muzzlPosX, 0, 0);
+                    _muzzle.transform.localPosition = new Vector3(_muzzlPos.x, _muzzlPos.y, 0);
                 }
                 else
                 {
-                    _muzzle.transform.localPosition = new Vector3(_muzzlPosX, 0, 0);
+                    _muzzle.transform.localPosition = new Vector3(-_muzzlPos.x, _muzzlPos.y, 0);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Player.Runtime
             _rb = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _velocity = _rb.linearVelocity;
-            _muzzlPosX = _muzzle.transform.localPosition.x;
+            _muzzlPos = _muzzle.transform.localPosition;
         }
 
         // Update is called once per frame
@@ -138,7 +138,7 @@ namespace Player.Runtime
         private PlayerState _state;
         private Vector2 _direction;
         private bool _canJump = true;
-        private float _muzzlPosX;
+        private Vector2 _muzzlPos;
 
         [Header("Références")] 
         [SerializeField] private GameObject _muzzle;
