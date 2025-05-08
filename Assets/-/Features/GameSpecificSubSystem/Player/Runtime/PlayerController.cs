@@ -55,6 +55,7 @@ namespace Player.Runtime
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _velocity = _rb.linearVelocity;
             _muzzlPos = _muzzle.transform.localPosition;
+            _animator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -63,12 +64,17 @@ namespace Player.Runtime
             switch (_state)
             {
                 case PlayerState.IDLE:
+                    _animator.SetBool("walk", false);
                     IdleLoop();
                     break;
                 case PlayerState.WALK:
+                    _animator.SetBool("walk", true);
+                    _animator.SetBool("jump", false);
                     WalkingLoop();
                     break;
                 case PlayerState.JUMP:
+                    _animator.SetBool("walk", false);
+                    _animator.SetBool("jump", true);
                     CheckJump();
                     break;
                 case PlayerState.HIT:
@@ -139,6 +145,7 @@ namespace Player.Runtime
         private Vector2 _direction;
         private bool _canJump = true;
         private Vector2 _muzzlPos;
+        private Animator _animator;
 
         [Header("Références")] 
         [SerializeField] private GameObject _muzzle;
