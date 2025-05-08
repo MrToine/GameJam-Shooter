@@ -10,7 +10,10 @@ namespace Player.Runtime
 
         #region Publics
 
-        public Vector2 m_direction;
+        public float GetPlayerDirection()
+        {
+            return _direction.x;
+        }
         
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -25,12 +28,12 @@ namespace Player.Runtime
                 if (_direction.x > 0)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
-                    _muzzle.transform.localPosition = new Vector3(_muzzlPos.x, _muzzlPos.y, 0);
+                    //_muzzle.transform.localPosition = new Vector3(_muzzlPos.x, _muzzlPos.y, 0);
                 }
                 else
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
-                    _muzzle.transform.localPosition = new Vector3(-_muzzlPos.x, _muzzlPos.y, 0);
+                    //_muzzle.transform.localPosition = new Vector3(-_muzzlPos.x, _muzzlPos.y, 0);
                 }
             }
         }
@@ -79,6 +82,7 @@ namespace Player.Runtime
                     CheckJump();
                     break;
                 case PlayerState.HIT:
+                    _animator.SetBool("TakeDamage", true);
                     break;
                 default:
                     IdleLoop();

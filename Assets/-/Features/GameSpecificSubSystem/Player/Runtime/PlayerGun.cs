@@ -21,17 +21,15 @@ namespace Player.Runtime
                 bullet.SetActive(true);
                 Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
                 Transform particleTransform = _particleSystem.transform.GetComponent<Transform>();
-                if (_playerSprite.flipX)
+                if (transform.localScale.x > 0)
                 {   
-                    particleTransform.localScale = new Vector3(-1, -1, -1);
-                    particleTransform.localPosition = new Vector3(-0.230f, 0, 0);
-                    bulletRb.AddForce(Vector2.left * _bulletSpeed, ForceMode2D.Impulse);
+                    particleTransform.localScale = new Vector3(1, 1, 1);
+                    bulletRb.AddForce(Vector2.right * _bulletSpeed, ForceMode2D.Impulse);
                 }
                 else
                 {
-                    particleTransform.localScale = new Vector3(1, 1, 1);                    
-                    particleTransform.localPosition = new Vector3(0.230f, 0, 0);
-                    bulletRb.AddForce(Vector2.right * _bulletSpeed, ForceMode2D.Impulse);
+                    particleTransform.localScale = new Vector3(-1, -1, -1);                    
+                    bulletRb.AddForce(Vector2.left * _bulletSpeed, ForceMode2D.Impulse);
                 }
 
                 _particleSystem.Play();
