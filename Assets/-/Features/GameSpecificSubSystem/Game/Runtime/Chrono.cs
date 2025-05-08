@@ -22,7 +22,6 @@ namespace Game.Runtime
         void Start()
         {
             _textMeshChrono = _chrono.GetComponent<TMP_Text>();
-            Debug.Log(_textMeshChrono);
         }
 
         // Update is called once per frame

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,33 +12,55 @@ namespace Game.Runtime
 
         public void QuitGame()
         {
+            Debug.Log("Quit");
             Application.Quit();
         }
 
         public void RestartLevel()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Time.timeScale = 1;
         }
 
         public void StartGame()
         {
             //
         }
+        
 
-        public void ColorEnterStart()
+        public void ScaleButton(GameObject button)
         {
-            _startButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            Debug.Log("ScaleButton");
+            button.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        }
+        
+        public void UnscaleButton(GameObject button)
+        {
+            Debug.Log("UnscaleButton");
+            button.transform.localScale = new Vector3(1, 1, 1);
         }
 
-        public void ColorEnterQuit()
+        public void ActiveMenu()
         {
-            _quitButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            Time.timeScale = 0;
+            _pauseMenu.SetActive(true);
         }
 
-        public void ColorDefault()
+        public void DeactiveMenu()
         {
-            _startButtonSprite.color = new Color(1f, 1f, 1f, 0f);
-            _quitButtonSprite.color = new Color(1f, 1f, 1f, 0f);
+            Time.timeScale = 1;
+            _pauseMenu.SetActive(false);
+        }
+
+        public void Death()
+        {
+            Time.timeScale = 0;
+            if (_deathScreen != null)
+            {
+                TMP_Text finalChrono = _deathScreen.GetComponentInChildren<TMP_Text>();
+                finalChrono.text = _textMeshChrono.text;
+                _deathScreen.SetActive(true);
+            }
         }
     
         #endregion
@@ -49,13 +72,33 @@ namespace Game.Runtime
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-        
+            /*GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+            foreach (GameObject obj in allObjects)
+            {
+                Debug.Log(obj.name);
+                if (obj != gameObject || obj.transform.IsChildOf(gameObject.transform) || obj.name != "Main Camera" || obj.name != "canvas")
+                {
+                    obj.SetActive(false);
+                }
+            }*/
         }
 
         // Update is called once per frame
         void Update()
         {
-        
+            if (Input.GetButtonDown("Cancel"))
+            {
+                _isPaused = !_isPaused;
+                if (_isPaused)
+                {
+                    ActiveMenu();
+                }
+                else
+                {
+                    DeactiveMenu();
+                }
+            }
         }
 
         #endregion
@@ -77,9 +120,12 @@ namespace Game.Runtime
     
     
         #region Privates and Protected
-
-        [SerializeField] private SpriteRenderer _startButtonSprite;
-        [SerializeField] private SpriteRenderer _quitButtonSprite;
+        
+        private bool _isPaused = false;
+        
+        [SerializeField] private GameObject _pauseMenu;
+        [SerializeField] private GameObject _deathScreen;
+        [SerializeField] private TMP_Text _textMeshChrono;
 
         #endregion
     }

@@ -9,7 +9,6 @@ namespace Enemy.Runtime
 
         public void OnAttack()
         {
-            Debug.Log("TIR");
             _canShoot = true;
         }
 
@@ -29,10 +28,6 @@ namespace Enemy.Runtime
             {
                 Shoot();
                 _lastShotTime = Time.time;
-            }
-            else
-            {
-                Debug.Log("PAS DE PIOUUU");
             }
         }
 

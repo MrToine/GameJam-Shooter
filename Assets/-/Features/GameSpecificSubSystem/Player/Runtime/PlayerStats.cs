@@ -29,6 +29,7 @@ namespace Player.Runtime
         {
             if (_lifePoints <= 0)
             {
+                _onDeath.Invoke();
                 Destroy(gameObject);
             }
             if (_isInvincible)
@@ -47,7 +48,6 @@ namespace Player.Runtime
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            Debug.Log("Entered on collision with :" + other.gameObject.name);
             if (other.gameObject.layer == LayerMask.NameToLayer("EnemyBullet"))
             {
                 _lifePoints--; ;
@@ -79,7 +79,8 @@ namespace Player.Runtime
         private SpriteRenderer _spriteRenderer;
         private SpriteRenderer _lifeSprite;
         private float _currentScaleXLifeBar;
-        
+
+        [SerializeField] private UnityEvent _onDeath;
         [SerializeField] private int _lifePoints;
         [SerializeField] private UnityEvent _changeState;
         [SerializeField] private GameObject _lifeUI;
