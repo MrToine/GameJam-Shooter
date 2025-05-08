@@ -24,7 +24,7 @@ namespace Game.Runtime
 
         public void StartGame()
         {
-            SceneManager.LoadScene("New Scene");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         
 

@@ -13,6 +13,7 @@ namespace Player.Runtime
 
         public void OnAttack(InputAction.CallbackContext context)
         {
+            _animator.SetBool("idle+fire", true);
             _impactSound.Play();
             if (context.performed)
             {
@@ -46,6 +47,7 @@ namespace Player.Runtime
         void Awake()
         {
             _playerSprite = GetComponent<SpriteRenderer>();
+            _animator = GetComponent<Animator>();
         }
 
         #endregion
@@ -69,6 +71,7 @@ namespace Player.Runtime
         #region Privates and Protected
 
         private SpriteRenderer _playerSprite;
+        private Animator _animator;
         
         [Header("Game Object <Muzzle>")]
         [SerializeField] private GameObject _muzzle;
