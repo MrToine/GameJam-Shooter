@@ -105,7 +105,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk+fire
-  m_Speed: 5
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2402820361876301910}
@@ -158,7 +158,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TakeDamage
-  m_Speed: 10000000
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2456527849253311254}
@@ -190,7 +190,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: jump
-  m_Speed: 10000000
+  m_Speed: 100
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2966786969374003359}
@@ -319,7 +319,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: jump+fire
-  m_Speed: 10000000
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5472801202384014234}
@@ -461,7 +461,7 @@ AnimatorStateMachine:
     m_Position: {x: 940, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6259589018329124361}
-    m_Position: {x: 730, y: 40, z: 0}
+    m_Position: {x: 740, y: 30, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8444200763163685091}
     m_Position: {x: 700, y: 170, z: 0}
@@ -707,7 +707,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: idle
-  m_Speed: 10000000
+  m_Speed: 100
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5825745124030955652}
@@ -737,7 +737,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: walk
-  m_Speed: 10000000
+  m_Speed: 100
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1939313947020898829}
@@ -816,7 +816,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: idle+fire
-  m_Speed: 5
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6958700628851568989}
